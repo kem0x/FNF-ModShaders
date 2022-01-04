@@ -109,9 +109,9 @@ Support for iMouse input is planned for the future.
 ---
 #### 3- Usage:
 
--	Shaders should be placed at /shaders folder, with `.frag` extension, 
+-	Shaders should be placed in /shaders folder, with `.frag` extension, 
 	See shaders folder for more examples.
-- Params are the file name and `optimize` bool, this might help with some heavy shaders **but only makes a difference on decent Intel CPUs (ones with SSE Instructions)**.
+- Params are the file name and `optimize` bool, this might help with heavy shaders **but only makes a difference on decent Intel CPUs (ones with SSE Instructions support)**.
  ```haxe
  new DynamicShaderHandler("Example");
 FlxG.camera.setFilters([new ShaderFilter(animatedShaders["Example"].shader)]);
