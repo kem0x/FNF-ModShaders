@@ -50,6 +50,8 @@ public var camTarget:FlxCamera;
 
    - As Lua callbacks:
 ```haxe
+import openfl.filters.BitmapFilter;
+
 Lua_helper.add_callback(lua, "createShaders", function(shaderName, ?optimize:Bool = false)
 {
 	var shader = new DynamicShaderHandler(shaderName, optimize);
