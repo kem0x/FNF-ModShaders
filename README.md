@@ -1,7 +1,6 @@
-### Shader ~~stealing~~ porting 101
----
+# Shader ~~stealing~~ porting 101
 
-#### 1- Adding this to FNF:
+## 1- Adding this to FNF:
 
 **(THIS MIGHT BREAK ANY SHADERS YOU USED BEFORE)**
 
@@ -33,7 +32,7 @@
 
 ---
 
-#### 2- Porting Shaders from shadertoy:
+## 2- Porting Shaders from shadertoy:
 
 **(PLEASE MAKE SURE TO READ THE LICENSE OF THE SHADER YOU ARE PORTING)**
 - First of all, you need to know that shadertoy automatically uses the inputs below:
@@ -107,7 +106,7 @@ Support for iMouse input is planned for the future.
     }
 ```
 ---
-#### 3- Usage:
+## 3- Usage:
 
 -	Shaders should be placed in /shaders folder, with `.frag` extension, 
 	See shaders folder for more examples.
@@ -123,7 +122,7 @@ FlxG.camera.setFilters([new ShaderFilter(animatedShaders["Example"].shader)]);
 
  ---
  
- #### Credits:
+ ## Credits:
 - [SqirraRNG](https://github.com/gedehari): Runtime shaders workaround.
 - Kemo (me): Handler, Improvements, Guide.
 
