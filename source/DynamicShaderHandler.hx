@@ -61,6 +61,23 @@ class DynamicShaderHandler
 		}
 
 		PlayState.animatedShaders[fileName] = this;
+		if (PlayState.instance.executeModchart)
+		{
+			PlayState.luaModchart.luaShaders[fileName] = this;
+		}
+	}
+
+	public function modifyShaderProperty(property:String, value:Dynamic)
+	{
+		if (shader == null)
+		{
+			return;
+		}
+
+		if (shader.data.get(property) != null)
+		{
+			shader.data.get(property).value = value;
+		}
 	}
 
 	private function getTime()

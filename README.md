@@ -1,6 +1,6 @@
 # Shader ~~stealing~~ porting 101
 
-## 1- Adding this to FNF:
+## 1. Adding this to FNF:
 
 **(THIS MIGHT BREAK ANY SHADERS YOU USED BEFORE)**
 
@@ -8,31 +8,109 @@
 
 - Add this in your `Paths.hx` 
 ```haxe
-	inline static public function shaderFragment(key:String, ?library:String)
-	{
-		return getPath('shaders/$key.frag', TEXT, library);
-	}
+inline static public function shaderFragment(key:String, ?library:String)
+{
+	return getPath('shaders/$key.frag', TEXT, library);
+}
 ```
 
-- Add those to your `PlayState.hx`
+- Add these to your `PlayState.hx`
 
     - In the variables:
 
 ```haxe
-	public static var animatedShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
+public static var animatedShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
 ```
 
    - In update function:
 ```haxe
-		for (shader in animatedShaders)
-		{
-			shader.update(elapsed);
-		}
+for (shader in animatedShaders)
+{
+	shader.update(elapsed);
+}
+```
+   - In update function (if Lua is used):
+```haxe
+#if #FEATURE_LUAMODCHART
+for (key => value in luaModchart.luaShaders)
+{
+	value.update(elapsed);
+}
+#end
+```
+
+- Add these to your `ModchartState.hx` for Lua support (KE / KE forks only)
+
+    - In the variables:
+
+```haxe
+public var luaShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
+public var camTarget:FlxCamera;
+```
+
+   - As Lua callbacks:
+```haxe
+Lua_helper.add_callback(lua, "createShaders", function(shaderName, ?optimize:Bool = false)
+{
+	var shader = new DynamicShaderHandler(shaderName, optimize);
+
+	return shaderName;
+});
+
+Lua_helper.add_callback(lua, "modifyShaderProperty", function(shaderName, propertyName, value)
+{
+	var handler = luaShaders[shaderName];
+	handler.modifyShaderProperty(propertyName, value);
+});
+
+// shader set
+
+Lua_helper.add_callback(lua, "setShadersToCamera", function(shaderName:Array<String>, cameraName)
+{
+	switch (cameraName)
+	{
+		case 'hud':
+			camTarget = PlayState.instance.camHUD;
+		case 'notes':
+			camTarget = PlayState.instance.camNotes;
+		case 'sustains':
+			camTarget = PlayState.instance.camSustains;
+		case 'game':
+			camTarget = FlxG.camera;
+	}
+
+	var shaderArray = new Array<BitmapFilter>();
+
+	for (i in shaderName)
+	{
+		shaderArray.push(new ShaderFilter(luaShaders[i].shader));
+	}
+
+	camTarget.setFilters(shaderArray);
+});
+
+// shader clear
+
+Lua_helper.add_callback(lua, "clearShadersFromCamera", function(cameraName)
+{
+	switch (cameraName)
+	{
+		case 'hud':
+			camTarget = PlayState.instance.camHUD;
+		case 'notes':
+			camTarget = PlayState.instance.camNotes;
+		case 'sustains':
+			camTarget = PlayState.instance.camSustains;
+		case 'game':
+			camTarget = FlxG.camera;
+	}
+	camTarget.setFilters([]);
+});
 ```
 
 ---
 
-## 2- Porting Shaders from shadertoy:
+## 2. Porting Shaders from shadertoy:
 
 **(PLEASE MAKE SURE TO READ THE LICENSE OF THE SHADER YOU ARE PORTING)**
 - First of all, you need to know that shadertoy automatically uses the inputs below:
@@ -106,7 +184,7 @@ Support for iMouse input is planned for the future.
     }
 ```
 ---
-## 3- Usage:
+## 3. Usage through Haxe:
 
 -	Shaders should be placed in /shaders folder, with `.frag` extension, 
 	See shaders folder for more examples.
@@ -119,12 +197,34 @@ FlxG.camera.setFilters([new ShaderFilter(animatedShaders["Example"].shader)]);
  ```haxe
  var spr:FlxSprite = new ShaderSprite("Example");
  ```
+---
+## 4. Usage through Lua:
+
+- You can initialize shaders through Lua using this function (parameters are shader name and optimize (optional))
+```lua
+createShaders("Example",true)
+```
+- You can load shaders onto cameras using this function (parameters are array of shader names and camera)
+```lua
+setShadersToCamera({"Example"},camera)
+```
+- You can clear shader filters using this function (parameters are camera name):
+```lua
+clearShadersFromCamera(camera)
+```
+- And you can modify shader uniforms with this method (parameters are shader name, property and value):
+```lua
+modifyShaderProperty("Example","Property",Value)
+```
+
+- Valid cameras are "game", "hud", "notes" and "sustains".
 
  ---
  
  ## Credits:
 - [SqirraRNG](https://github.com/gedehari): Runtime shaders workaround.
 - Kemo (me): Handler, Improvements, Guide.
+- [Fireable](https://github.com/ItzFireable): Lua implementation
 
     - If you are going to port this to any engine, please make sure to leave a *noticable* credit and respect the effort, this was planned to be nexus engine exclusive but there ya :).
 
