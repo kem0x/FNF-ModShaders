@@ -175,7 +175,7 @@ Support for iMouse input is planned for the future.
     }
 ```
 ---
-## 3- Usage:
+## 3- Usage through Haxe:
 
 -	Shaders should be placed in /shaders folder, with `.frag` extension, 
 	See shaders folder for more examples.
@@ -188,6 +188,8 @@ FlxG.camera.setFilters([new ShaderFilter(animatedShaders["Example"].shader)]);
  ```haxe
  var spr:FlxSprite = new ShaderSprite("Example");
  ```
+---
+## 4- Usage through Lua:
 
 - You can initialize shaders through Lua using this function (parameters are shader name and optimize (optional))
 ```lua
