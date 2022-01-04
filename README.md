@@ -14,7 +14,7 @@
 	}
 ```
 
-- Add those to your `PlayState.hx`
+- Add these to your `PlayState.hx`
 
     - In the variables:
 
@@ -24,10 +24,80 @@
 
    - In update function:
 ```haxe
-		for (shader in animatedShaders)
+	for (shader in animatedShaders)
+	{
+		shader.update(elapsed);
+	}
+```
+
+- Add these to your `ModchartState.hx` for Lua support (KE / KE forks only)
+
+    - In the variables:
+
+```haxe
+	public var luaShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
+
+	public var camTarget:FlxCamera;
+```
+
+   - As Lua callbacks:
+```haxe
+	Lua_helper.add_callback(lua, "createShaders", function(shaderName)
+	{
+		var shader = new DynamicShaderHandler(shaderName);
+
+		return shaderName;
+	});
+
+	Lua_helper.add_callback(lua, "modifyShaderProperty", function(shaderName, propertyName, value)
+	{
+		var handler = luaShaders[shaderName];
+		handler.modifyShaderProperty(propertyName, value);
+	});
+
+	// shader set
+
+	Lua_helper.add_callback(lua, "setShadersToCamera", function(shaderName:Array<String>, cameraName)
+	{
+		switch (cameraName)
 		{
-			shader.update(elapsed);
+			case 'hud':
+				camTarget = PlayState.instance.camHUD;
+			case 'notes':
+				camTarget = PlayState.instance.camNotes;
+			case 'sustains':
+				camTarget = PlayState.instance.camSustains;
+			case 'game':
+				camTarget = FlxG.camera;
 		}
+
+		var shaderArray = new Array<BitmapFilter>();
+
+		for (i in shaderName)
+		{
+			shaderArray.push(new ShaderFilter(luaShaders[i].shader));
+		}
+
+		camTarget.setFilters(shaderArray);
+	});
+
+	// shader clear
+
+	Lua_helper.add_callback(lua, "clearShadersFromCamera", function(cameraName)
+	{
+		switch (cameraName)
+		{
+			case 'hud':
+				camTarget = PlayState.instance.camHUD;
+			case 'notes':
+				camTarget = PlayState.instance.camNotes;
+			case 'sustains':
+				camTarget = PlayState.instance.camSustains;
+			case 'game':
+				camTarget = FlxG.camera;
+		}
+		camTarget.setFilters([]);
+	});
 ```
 
 ---
