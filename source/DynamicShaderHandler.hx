@@ -61,6 +61,10 @@ class DynamicShaderHandler
 		}
 
 		PlayState.animatedShaders[fileName] = this;
+		if (PlayState.executeModchart)
+		{
+			PlayState.luaModchart.luaShaders[fileName] = this;
+		}
 	}
 
 	private function getTime()
