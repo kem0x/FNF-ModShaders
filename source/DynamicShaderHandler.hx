@@ -61,9 +61,13 @@ class DynamicShaderHandler
 		}
 
 		PlayState.animatedShaders[fileName] = this;
+		
 		if (PlayState.instance.executeModchart)
 		{
-			PlayState.luaModchart.luaShaders[fileName] = this;
+			if (PlayState.luaModchart != null)
+			{
+				PlayState.luaModchart.luaShaders[fileName] = this;
+			}
 		}
 	}
 
