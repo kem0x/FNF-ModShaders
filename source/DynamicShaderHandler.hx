@@ -67,6 +67,19 @@ class DynamicShaderHandler
 		}
 	}
 
+	public function modifyShaderProperty(property:String, value:Dynamic)
+	{
+		if (shader == null)
+		{
+			return;
+		}
+
+		if (shader.data.get(property) != null)
+		{
+			shader.data.get(property).value = value;
+		}
+	}
+
 	private function getTime()
 	{
 		return shader.data.iTime.value[0];
