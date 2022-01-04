@@ -29,6 +29,15 @@ for (shader in animatedShaders)
 	shader.update(elapsed);
 }
 ```
+   - In update function (if Lua is used):
+```haxe
+#if #FEATURE_LUAMODCHART
+for (key => value in luaModchart.luaShaders)
+{
+	value.update(elapsed);
+}
+#end
+```
 
 - Add these to your `ModchartState.hx` for Lua support (KE / KE forks only)
 
