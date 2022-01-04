@@ -23,7 +23,7 @@
 	public static var animatedShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
 ```
 
-    - In update function:
+   - In update function:
 ```haxe
 		for (shader in animatedShaders)
 		{
@@ -52,8 +52,10 @@
  ```
 
 Currently, my implementation only supports the following inputs: (iResolution, iTime, iChannel0).
+
 Support for iMouse input is planned for the future.
  - For this instance we will be porting https://www.shadertoy.com/view/lddXWS
+ 
  The shader code is the following:
  ```cpp
  const float RADIUS	= 100.0;
