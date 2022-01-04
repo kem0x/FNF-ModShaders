@@ -1,6 +1,6 @@
 # Shader ~~stealing~~ porting 101
 
-## 1- Adding this to FNF:
+## 1. Adding this to FNF:
 
 **(THIS MIGHT BREAK ANY SHADERS YOU USED BEFORE)**
 
@@ -101,7 +101,7 @@ Lua_helper.add_callback(lua, "clearShadersFromCamera", function(cameraName)
 
 ---
 
-## 2- Porting Shaders from shadertoy:
+## 2. Porting Shaders from shadertoy:
 
 **(PLEASE MAKE SURE TO READ THE LICENSE OF THE SHADER YOU ARE PORTING)**
 - First of all, you need to know that shadertoy automatically uses the inputs below:
@@ -175,7 +175,7 @@ Support for iMouse input is planned for the future.
     }
 ```
 ---
-## 3- Usage through Haxe:
+## 3. Usage through Haxe:
 
 -	Shaders should be placed in /shaders folder, with `.frag` extension, 
 	See shaders folder for more examples.
@@ -189,7 +189,7 @@ FlxG.camera.setFilters([new ShaderFilter(animatedShaders["Example"].shader)]);
  var spr:FlxSprite = new ShaderSprite("Example");
  ```
 ---
-## 4- Usage through Lua:
+## 4. Usage through Lua:
 
 - You can initialize shaders through Lua using this function (parameters are shader name and optimize (optional))
 ```lua
