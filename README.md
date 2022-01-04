@@ -41,9 +41,9 @@ public var camTarget:FlxCamera;
 
    - As Lua callbacks:
 ```haxe
-Lua_helper.add_callback(lua, "createShaders", function(shaderName)
+Lua_helper.add_callback(lua, "createShaders", function(shaderName, ?optimize:Bool = false)
 {
-	var shader = new DynamicShaderHandler(shaderName);
+	var shader = new DynamicShaderHandler(shaderName, optimize);
 
 	return shaderName;
 });
@@ -189,9 +189,9 @@ FlxG.camera.setFilters([new ShaderFilter(animatedShaders["Example"].shader)]);
  var spr:FlxSprite = new ShaderSprite("Example");
  ```
 
-- You can initialize shaders through Lua using this function (parameters are shader name)
+- You can initialize shaders through Lua using this function (parameters are shader name and optimize (optional))
 ```lua
-createShaders("Example")
+createShaders("Example",true)
 ```
 - You can load shaders onto cameras using this function (parameters are array of shader names and camera)
 ```lua
