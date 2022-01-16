@@ -16,7 +16,13 @@ inline static public function shaderFragment(key:String, ?library:String)
 
 - Add these to your `PlayState.hx`
 
-    - In the variables:
+    - At the start:
+
+```haxe
+import DynamicShaderHandler;
+```
+
+   - In the variables:
 
 ```haxe
 public static var animatedShaders:Map<String, DynamicShaderHandler> = new Map<String, DynamicShaderHandler>();
